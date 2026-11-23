@@ -1,1 +1,25 @@
-<p>lista-contatos works!</p>
+<app-titulo-pagina titulo="Contatos" subtitulo="A lista reage sozinha a cada mudança (Observables)">
+  <a mat-flat-button routerLink="/contatos/novo"><mat-icon>person_add</mat-icon> Novo contato</a>
+</app-titulo-pagina>
+
+<mat-form-field appearance="outline">
+  <mat-label>Buscar por nome ou e-mail</mat-label>
+  <mat-icon matPrefix>search</mat-icon>
+  <input matInput [formControl]="busca" placeholder="Ex.: ana" />
+</mat-form-field>
+
+@if (contatosFiltrados$ | async; as contatos) {
+  <p class="resumo">{{ contatos.length }} contato(s) encontrado(s)</p>
+
+  <section class="grade">
+    @for (contato of contatos; track contato.id) {
+      <app-card-contato
+        [contato]="contato"
+        (favoritar)="aoFavoritar($event)"
+        (remover)="aoRemover($event)"
+      />
+    } @empty {
+      <p class="vazio">Nenhum contato encontrado.</p>
+    }
+  </section>
+}

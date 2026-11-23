@@ -1,9 +1,14 @@
+// rodape.ts - COMPONENTE DE LAYOUT simples (exemplo de INTERPOLAÇÃO).
+// Criado com: ng generate component core/layout/rodape
 import { Component } from '@angular/core';
 
 @Component({
-  imports: [],
   selector: 'app-rodape',
-  styleUrl: './rodape.scss',
+  imports: [],
   templateUrl: './rodape.html',
+  styleUrl: './rodape.scss',
 })
-export class Rodape {}
+export class Rodape {
+  readonly ano = new Date().getFullYear();
+  readonly curso = 'Desenvolvedor Front-End Angular';
+}

@@ -1,1 +1,32 @@
-<p>cabecalho works!</p>
+<mat-toolbar class="barra">
+  <a routerLink="/" class="marca">
+    <mat-icon>contacts</mat-icon>
+    <span>{{ tituloApp }}</span>
+  </a>
+
+  <span class="espaco"></span>
+
+  <button mat-icon-button type="button" class="botao-menu" (click)="alternarMenu()" aria-label="Abrir menu">
+  <mat-icon>{{ menuAberto() ? 'close' : 'menu' }}</mat-icon>
+</button>
+
+<nav class="menu" [class.aberto]="menuAberto()">
+  @for (link of links; track link.rota) {
+    <a
+      mat-button
+      [routerLink]="link.rota"
+      routerLinkActive="ativo"
+      [routerLinkActiveOptions]="{ exact: true }"
+      (click)="fecharMenu()"
+    >
+      <mat-icon>{{ link.icone }}</mat-icon>
+      {{ link.texto }}
+    </a>
+  }
+
+  <span class="total" matTooltip="Total de contatos">
+    <mat-icon [matBadge]="total$ | async" matBadgeSize="small" aria-hidden="false">people</mat-icon>
+  </span>
+</nav>
+</mat-toolbar>
+

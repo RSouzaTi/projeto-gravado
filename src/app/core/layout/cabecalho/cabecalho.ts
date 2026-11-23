@@ -1,9 +1,44 @@
-import { Component } from '@angular/core';
+// cabecalho.ts - COMPONENTE DE LAYOUT (core = aparece em todas as páginas).
+// Criado com: ng generate component core/layout/cabecalho
+//
+// COMPONENTE REATIVO: ele não "pergunta" quantos contatos existem.
+// Ele se INSCREVE no total$ do service e se atualiza sozinho quando a lista muda.
+import { Component, inject, signal } from '@angular/core';
+import { ContatoService } from '../../services/contato-service';
+import { SharedModule } from '../../../shared/shared-module';
+
+interface LinkMenu {
+  rota: string;
+  texto: string;
+  icone: string;
+}
 
 @Component({
-  imports: [],
   selector: 'app-cabecalho',
-  styleUrl: './cabecalho.scss',
+  imports: [SharedModule],
   templateUrl: './cabecalho.html',
+  styleUrl: './cabecalho.scss',
 })
-export class Cabecalho {}
+export class Cabecalho {
+  readonly tituloApp = 'Agenda SENAI';
+
+  readonly links: LinkMenu[] = [
+    { rota: '/', texto: 'Início', icone: 'home' },
+    { rota: '/contatos', texto: 'Contatos', icone: 'contacts' },
+    { rota: '/contatos/novo', texto: 'Novo', icone: 'person_add' },
+    { rota: '/fale-conosco', texto: 'Fale conosco', icone: 'mail' },
+  ];
+
+private readonly contatoService = inject(ContatoService);
+readonly total$ = this.contatoService.total$;
+
+readonly menuAberto = signal(false);
+
+alternarMenu(): void {
+  this.menuAberto.update((aberto) => !aberto);
+}
+
+fecharMenu(): void {
+  this.menuAberto.set(false);
+  }
+} 
